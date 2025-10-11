@@ -7,7 +7,7 @@ then
   echo "This creates a new django project in a subfolder. It requires django-admin command to be available."
   echo ""
   echo "Usage:"
-  echo "  ./example.sh folder_name/"
+  echo "  ./startproject.sh folder_name/"
   exit
 fi
 
@@ -41,5 +41,8 @@ cd -
 mkdir tests
 touch tests/__init__.py
 
+cp ../.pre-commit-config.yaml .
+
+pre-commit autoupdate
 
 cd ../
