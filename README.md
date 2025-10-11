@@ -1,4 +1,4 @@
-# Creating a new Django with very little configuration
+# A Django project with a few important opinions
 
 The point of this repository is to illustrate a Blog post and to prove that it's very easy to bootstrap new Django projects in the modern era.
 

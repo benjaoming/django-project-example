@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# This script is intentionally very simple and 'dumb'.
+
 if [ "$1" == "" ]
 then
   echo "This creates a new django project in a subfolder. It requires django-admin command to be available."
@@ -9,10 +11,17 @@ then
   exit
 fi
 
-rm -rf tmp
-mkdir tmp
-cd tmp
-mkdir src
+# Remove if exists (TODO: warning)
+rm -rf $1
+
+# We use uv to create a package
+uv init $1 --package
+
+cd $1
+
+uv add django
+uv add --dev pytest
+
 django-admin startproject $1
 mv $1/$1 src/project/
 mv $1/manage.py src/
@@ -32,5 +41,5 @@ cd -
 mkdir tests
 touch tests/__init__.py
 
+
 cd ../
-mv tmp $1
