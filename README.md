@@ -15,4 +15,4 @@ You need:
 
 ## Usage
 
-You can create your new project by running ./startproject.sh name-of-project
+You can create your new project by running `./startproject.sh name-of-project`
