@@ -34,6 +34,12 @@ uv add --dev pytest
 django-admin startproject $1
 mv $1/$1 src/project/
 mv $1/manage.py src/
+
+# Use settings.development as default
+# TOOD: Should the pattern be different to ensure that development settings are
+#   never used in a production shell?
+sed -i "s/$1.settings/$1.settings.development/" src/manage.py
+
 mkdir src/project/settings/
 touch src/project/settings/__init__.py
 mv src/project/settings.py src/project/settings/base.py
