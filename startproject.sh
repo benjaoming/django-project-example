@@ -8,7 +8,16 @@ then
   echo ""
   echo "Usage:"
   echo "  ./startproject.sh folder_name/"
-  exit
+  exit 1
+fi
+
+set -e
+
+if [[ ! "$1" =~ ^[a-zA-Z][a-zA-Z0-9_]*$ ]]; then
+
+  echo "Invalid slug: $1 - please use a valid Python package name"
+  exit 1
+
 fi
 
 # Remove if exists (TODO: warning)
@@ -28,6 +37,9 @@ mv $1/manage.py src/
 mkdir src/project/settings/
 touch src/project/settings/__init__.py
 mv src/project/settings.py src/project/settings/base.py
+
+echo "from .base import *\n\nDEBUG=False" > src/project/settings/production.py
+echo "from .base import *\n\nDEBUG=True" > src/project/settings/development.py
 
 rmdir $1
 
