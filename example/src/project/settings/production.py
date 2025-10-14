@@ -1,1 +1,3 @@
-from .base import *\n\nDEBUG=False
+from .base import *
+
+DEBUG=False

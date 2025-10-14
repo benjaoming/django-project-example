@@ -38,14 +38,23 @@ mv $1/manage.py src/
 # Use settings.development as default
 # TOOD: Should the pattern be different to ensure that development settings are
 #   never used in a production shell?
-sed -i "s/$1.settings/$1.settings.development/" src/manage.py
+sed -i "s/$1.settings/project.settings.development/" src/manage.py
+
+# Replace some generated default settings - This should of course be handled better
+# Maybe we should run 'django-admin startproject project' instead?
+sed -i "s/$1\.urls/project.urls/" src/project/settings.py
+sed -i "s/$1\.wsgi.application/project.wsgi.application/" src/project/settings.py
 
 mkdir src/project/settings/
 touch src/project/settings/__init__.py
 mv src/project/settings.py src/project/settings/base.py
 
-echo "from .base import *\n\nDEBUG=False" > src/project/settings/production.py
-echo "from .base import *\n\nDEBUG=True" > src/project/settings/development.py
+echo "from .base import *" > src/project/settings/production.py
+echo "" >> src/project/settings/production.py
+echo "DEBUG=False" >> src/project/settings/production.py
+echo "from .base import *" > src/project/settings/development.py
+echo "" >> src/project/settings/development.py
+echo "DEBUG=True" >> src/project/settings/development.py
 
 rmdir $1
 
