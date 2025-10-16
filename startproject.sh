@@ -31,32 +31,40 @@ cd $1
 uv add django
 uv add --dev pytest
 
-django-admin startproject $1
-mv $1/$1 src/project/
-mv $1/manage.py src/
+# This is the Django project name, we prefer just 'project'!
+project_name=project
+
+django-admin startproject project
+mv $project_name/$project_name src/$project_name/
+mv $project_name/manage.py src/
 
 # Use settings.development as default
 # TOOD: Should the pattern be different to ensure that development settings are
 #   never used in a production shell?
-sed -i "s/$1.settings/project.settings.development/" src/manage.py
+sed -i "s/$project_name.settings/$project_name.settings.development/" src/manage.py
 
 # Replace some generated default settings - This should of course be handled better
 # Maybe we should run 'django-admin startproject project' instead?
-sed -i "s/$1\.urls/project.urls/" src/project/settings.py
-sed -i "s/$1\.wsgi.application/project.wsgi.application/" src/project/settings.py
+sed -i "s/$project_name\.urls/project.urls/" src/$project_name/settings.py
+sed -i "s/$project_name\.wsgi.application/$project_name.wsgi.application/" src/$project_name/settings.py
 
-mkdir src/project/settings/
-touch src/project/settings/__init__.py
-mv src/project/settings.py src/project/settings/base.py
+mkdir src/$project_name/settings/
+touch src/$project_name/settings/__init__.py
+mv src/$project_name/settings.py src/$project_name/settings/base.py
 
-echo "from .base import *" > src/project/settings/production.py
-echo "" >> src/project/settings/production.py
-echo "DEBUG=False" >> src/project/settings/production.py
-echo "from .base import *" > src/project/settings/development.py
-echo "" >> src/project/settings/development.py
-echo "DEBUG=True" >> src/project/settings/development.py
+echo "from .base import *" > src/$project_name/settings/production.py
+echo "" >> src/$project_name/settings/production.py
+echo "DEBUG=False" >> src/$project_name/settings/production.py
+echo "from .base import *" > src/$project_name/settings/development.py
+echo "" >> src/$project_name/settings/development.py
+echo "DEBUG=True" >> src/$project_name/settings/development.py
 
-rmdir $1
+
+# Remove unless it somehow has the same name
+if [[ $1 != project_name ]]
+then
+  rmdir $project_name
+fi
 
 mkdir src/apps
 touch src/apps/__init__.py
