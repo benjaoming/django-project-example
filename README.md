@@ -10,8 +10,7 @@ By now, the best practices have settled and very little modification to the tool
 
 You need:
 
-* uv: `pipx install uv` (or something similar)
-* Django: `uvx install django` (django version doesn't really matter, but latest is greatest)
+* uv: `pipx install uv` (or [another method to install it](https://docs.astral.sh/uv/getting-started/installation/))
 
 ## Usage
 
